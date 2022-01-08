@@ -1,0 +1,42 @@
+### GetCustomers
+GET https://localhost:5001/api/customers
+
+### GetCustomer
+GET https://localhost:5001/api/customers/02f48796-c9e9-4693-aef0-11f5404d142f
+
+### UpdateCustomer
+PUT https://localhost:5001/api/customers/02f48796-c9e9-4693-aef0-11f5404d142f HTTP/1.1
+Content-Type: application/json
+Content-Length: 268
+
+{
+  "customerID": "02f48796-c9e9-4693-aef0-11f5404d142f",
+  "firstName": "Doris",
+  "lastName": "Wahlbergs",
+  "adress": "Vasagatan 52",
+  "zipCode": 12179,
+  "city": "Gothenburg",
+  "country": "Sverige",
+  "birthDate": "1977-11-11T00:00:00",
+  "orders": []
+}
+
+### DeleteCustomer
+DELETE https://localhost:5001/api/customers/02f48796-c9e9-4693-aef0-11f5404d142f HTTP/1.1
+
+### CreateCustomer
+POST https://localhost:5001/api/customers HTTP/1.1
+Content-Type: application/json
+Content-Length: 268
+
+{
+  "customerID": "02f48796-c9e9-4693-aef0-11f5404d142f",
+  "firstName": "Doris",
+  "lastName": "Wahlberg",
+  "adress": "Vasagatan 52",
+  "zipCode": 12179,
+  "city": "Gothenburg",
+  "country": "Sverige",
+  "birthDate": "1977-11-11T00:00:00",
+  "orders": []
+}

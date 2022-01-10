@@ -10,7 +10,7 @@ namespace DbAppWebApi.Controllers
     {
         public LogController() { }
 
-        //GET /debug
+        //GET /Log
         [HttpGet()]
         [ProducesResponseType(200, Type = typeof(IEnumerable<AppLogItem>))]
         public IEnumerable<AppLogItem> Get()

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -16,59 +16,43 @@ namespace DbAppWebApi
     public sealed class AppLog
     {
         private static AppLog _instance = null;
-        private static readonly object instanceLock = new();
         
-        private static Stack<AppLogItem> _logStack = null;
+        private static ConcurrentStack<AppLogItem> _logStack = null;
 
         private AppLog()
         {
-            _logStack = new Stack<AppLogItem>();
+            _logStack = new ConcurrentStack<AppLogItem>();
         }
 
         public static AppLog Instance
         {
             get
             {
-                lock (instanceLock)
+                if (_instance == null)
                 {
-                    if (_instance == null)
-                    {
-                        _instance = new AppLog();
-                    }
-                    return _instance;
+                    _instance = new AppLog();
                 }
+                return _instance;
             }
         }
 
         public void LogInformation(params string[] info)
         {
-            lock (instanceLock)
-            {
-                _logStack.Push(new AppLogItem { Type = "Information", Info = info });
-            }
+            _logStack.Push(new AppLogItem { Type = "Information", Info = info });
         }
         public void LogDBConnection(params string[] info)
         {
-            lock (instanceLock)
-            {
-                _logStack.Push(new AppLogItem { Type = "DBConnection", Info = info });
-            }
+            _logStack.Push(new AppLogItem { Type = "DBConnection", Info = info });
         }
 
         public void LogException(Exception ex)
         {
-            lock (instanceLock)
-            {
-                _logStack.Push(new AppLogItem { Type = "Exception", 
-                    Info = new string[] { ex.Message, ex.InnerException.Message }});
-            }
+            _logStack.Push(new AppLogItem { Type = "Exception", 
+                 Info = new string[] { ex.Message, ex.InnerException.Message }});
         }
         public AppLogItem[] ToArray()
         {
-            lock (instanceLock)
-            {
-                return _logStack.ToArray();
-            }
+            return _logStack.ToArray();
         }
     }
 }

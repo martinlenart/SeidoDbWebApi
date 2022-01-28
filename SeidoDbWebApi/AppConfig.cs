@@ -14,11 +14,16 @@ namespace DbAppWebApi
         private static readonly object instanceLock = new();
         private static IConfigurationRoot _configuration;
 
+# if DEBUG
+        private string _appsettingfile = "appsettings.json";
+#else
+        private string _appsettingfile = "appsettings.Development.json";
+#endif
         private AppConfig()
         {
             var builder = new ConfigurationBuilder()
                                 .SetBasePath(Directory.GetCurrentDirectory())
-                                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                                .AddJsonFile(_appsettingfile, optional: true, reloadOnChange: true);
 
             _configuration = builder.Build();
         }

@@ -14,10 +14,10 @@ namespace DbAppWebApi
         private static readonly object instanceLock = new();
         private static IConfigurationRoot _configuration;
 
-# if DEBUG
-        private string _appsettingfile = "appsettings.json";
-#else
+#if DEBUG
         private string _appsettingfile = "appsettings.Development.json";
+#else
+        private string _appsettingfile = "appsettings.json";
 #endif
         private AppConfig()
         {
